@@ -17,6 +17,7 @@ import { ProductDetail } from '../productDetail';
       <span class="listing-info"><label>SKU:</label> {{ productDetail.SKU}}</span>
       <span class="listing-info"><label>Barcode:</label>{{ productDetail.barcode}}</span>
       <span class="listing-info"><label>Grams:</label>{{ productDetail.grams}}</span>
+      <span class="listing-info"><label>Stock:</label>{{ productDetail.stock}}</span>
       <span class="listing-info"><label>Price:</label>{{ productDetail.price}}</span>
       <span class="listing-info"><label>Compared Price:</label>{{ productDetail.compare_price}}</span>
       <div style="text-align:right;padding:0 15px 0 0;">

@@ -6,6 +6,16 @@ import { ProductDetail } from './productDetail';
 })
 export class ProductDetailService {
 
+  async submitApplication(id: number, detail: ProductDetail) {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(detail)
+    };
+    const data = await fetch(`${this.url}${id}`, requestOptions);
+    return await data.json() ?? [];
+  }
+
   constructor() { }
 
   url = 'http://localhost:8000/api/products/';
@@ -16,7 +26,7 @@ export class ProductDetailService {
   }
 
   async getProductById(id:number): Promise<ProductDetail> {
-    const data = await fetch(this.url + id);
+    const data = await fetch(`${this.url}${id}`);
     return await data.json() ?? [];
   }
   
