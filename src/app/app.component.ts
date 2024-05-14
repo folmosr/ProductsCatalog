@@ -6,15 +6,15 @@ import { ProductComponent } from './product/product.component';
   standalone: true,
   imports: [ProductComponent, RouterModule],
   template: `
-  <main>
+  <main class="container-fluid">
     <a [routerLink]="['/']">
       <header class="brand-name">
         <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
       </header>
     </a>
-    <section class="content">
+    <div class="row">
       <router-outlet></router-outlet>
-    </section>
+    </div>
   </main>
 `,
   styleUrls: ['./app.component.css'],
