@@ -18,7 +18,7 @@ export class ProductDetailService {
 
   constructor() { }
 
-  url = 'http://localhost:8000/api/products/';
+  url = 'http://localhost:9000/api/products/';
 
   async getAllProducts(): Promise<ProductDetail[]> {
     const data = await fetch(this.url);

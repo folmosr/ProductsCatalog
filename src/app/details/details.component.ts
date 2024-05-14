@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ProductDetailService } from '../productDetail.service';
@@ -11,71 +11,55 @@ import { ProductDetail } from '../productDetail';
   selector: 'app-details',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-      <article>
-          <span>{{notification}}</span>
-          <img class="listing-photo" [src]="productDetail?.image ?? '/assets/No-Image-Placeholder.svg'" alt="Exterior photo of {{productDetail?.title}}" />
-          <section class="listing-description">
-            <p class="listing-location" [innerHTML]="productDetail?.description"></p>
-          </section>
-          <section class="listing-features">
-            <ul>
-              <li>Title: {{productDetail?.title}}</li>
-              <li>Handle: {{productDetail?.handle}}</li>
-              <li>SKU: {{productDetail?.SKU}}</li>
-              <li>Barcode: {{productDetail?.barcode}}</li>
-              <li>Stock: {{productDetail?.stock}}</li>
-              <li>Grams: {{productDetail?.grams}}</li>
-              <li>Price: {{productDetail?.price}}</li>
-              <li>Compare Price: {{productDetail?.compare_price}}</li>
-            </ul>
-          </section>
-          <section class="listing-apply">
-            <h2 class="section-heading">Update Product</h2>
-            <form [formGroup]="applyForm" (submit)="submitApplication()">
-              <label for="title">Title</label>
-              <input id="title" type="text" formControlName="title"  />
-              <label for="SKU">SKU</label>
-              <input id="SKU" type="text" formControlName="SKU"  />
-              <label for="barcode">Barcode</label>
-              <input id="barcode" type="text" formControlName="barcode"  />
-              <label for="description">Description</label>
-              <textarea id="description" formControlName="description"  style="width: 419px; height: 156px;"></textarea>
-              <label for="hanlde">Hanlde</label>
-              <input id="handle" type="text" formControlName="handle"  />
-              <label for="price">Price</label>
-              <input id="price" type="number" formControlName="price"  />
-              <label for="compare_price">Compare Price</label>
-              <input id="compare_price" type="number" formControlName="compare_price"  />
-              <label for="stock">Stock</label>
-              <input id="image" type="text" formControlName="stock"  />
-              <label for="image">URL for Image</label>
-              <input id="image" type="text" formControlName="image"  />
-              <button type="submit" class="primary">Update</button>
-            </form>
-          </section>
-      </article>`
-  ,
+  templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
 export class DetailsComponent {
 
+  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   notification:string = '';
   route: ActivatedRoute = inject(ActivatedRoute);
   productDetailService: ProductDetailService = inject(ProductDetailService);
   productDetailId = -1;
   productDetail:ProductDetail | undefined;
   applyForm = new FormGroup({
-    title: new FormControl(''),
-    description: new FormControl(''),
-    handle: new FormControl(''),
-    SKU: new FormControl(''),
-    barcode: new FormControl(''),
-    stock: new FormControl(0),
-    grams: new FormControl(0),
-    price: new FormControl(0),
-    compare_price: new FormControl(0),
-    image: new FormControl(''),
+    title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4)
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(50)
+    ]),
+    handle: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4)
+    ]),
+    SKU: new FormControl('',
+    [
+      Validators.required,
+      Validators.minLength(12)
+    ]
+    ),
+    barcode: new FormControl('',[
+      Validators.required,
+      Validators.minLength(12)
+    ]),
+    stock: new FormControl(0,[
+      Validators.required
+    ]),
+    grams: new FormControl(0, [
+      Validators.required,
+    ]),
+    price: new FormControl(0, [
+      Validators.required,
+      Validators.min(1)
+    ]),
+    compare_price: new FormControl(0, [
+      Validators.required,
+      Validators.min(1)
+    ]),
+    image: new FormControl('', [Validators.pattern(this.reg)]),
   });
 
   constructor() {
@@ -96,6 +80,46 @@ export class DetailsComponent {
           handle :  this.productDetail.handle,
         })
       });
+  }
+
+  get title() {
+    return this.applyForm.get('title');
+  }
+
+  get description() {
+    return this.applyForm.get('description');
+  }
+
+  get stock() {
+    return this.applyForm.get('stock');
+  }
+
+  get price() {
+    return this.applyForm.get('price');
+  }
+
+  get compare_price() {
+    return this.applyForm.get('compare_price');
+  }
+
+  get grams() {
+    return this.applyForm.get('grams');
+  }
+
+  get SKU() {
+    return this.applyForm.get('SKU');
+  }
+  
+  get barcode() {
+    return this.applyForm.get('barcode');
+  }
+
+  get image() {
+    return this.applyForm.get('image');
+  }
+
+  get handle() {
+    return this.applyForm.get('handle');
   }
 
   submitApplication() {
