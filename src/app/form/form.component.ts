@@ -17,7 +17,7 @@ export class FormComponent {
 
   @Input() productDetail: ProductDetail | null = null;
 
-  @Input() productDetailId: number = -1;
+  @Input() productDetailId: number | undefined;
 
   @Output() notificationEvent = new EventEmitter<NotificationMessage>();
 
@@ -26,6 +26,49 @@ export class FormComponent {
   applyForm!: FormGroup;
 
   productDetailService: ProductDetailService = inject(ProductDetailService);
+
+  ngOnInit() {
+    this.applyForm = new FormGroup({
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(50)
+      ]),
+      handle: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      SKU: new FormControl('',
+        [
+          Validators.required,
+          Validators.minLength(12)
+        ]
+      ),
+      barcode: new FormControl('', [
+        Validators.required,
+        Validators.minLength(12)
+      ]),
+      stock: new FormControl(0, [
+        Validators.required
+      ]),
+      grams: new FormControl(0, [
+        Validators.required,
+      ]),
+      price: new FormControl(0, [
+        Validators.required,
+        Validators.min(1)
+      ]),
+      compare_price: new FormControl(0, [
+        Validators.required,
+        Validators.min(1)
+      ]),
+      image: new FormControl('', [Validators.pattern(this.reg)]),
+    });
+
+  }
 
   ngOnChanges() {
     this.applyForm = new FormGroup({

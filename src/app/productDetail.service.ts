@@ -9,21 +9,27 @@ import { MessageService } from './messageService';
 })
 export class ProductDetailService {
 
-  submitApplication(id: number, detail: ProductDetail): Observable<MessageService> {
-    return this.http.put<MessageService>(`${this.url}${id}`, detail);
+  submitApplication(id: number | undefined, detail: ProductDetail): Observable<MessageService> {
+    if (id) {
+      return this.http.put<MessageService>(`${this.url}${id}`, detail);
+    } else {
+      return this.http.post<MessageService>(`${this.url}`, detail);
+    }
   }
 
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:7000/api/products/';
 
-  async getAllProducts(): Promise<ProductDetail[]> {
-    const data = await fetch(this.url);
-    return await data.json() ?? [];
+  getAllProducts(): Observable<ProductDetail[]> {
+    return this.http.get<ProductDetail[]>(this.url);
   }
 
   getProductById(id: number): Observable<ProductDetail> {
     return this.http.get<ProductDetail>(`${this.url}${id}`);
   }
 
+  deleteProduct(id: number) {
+    return this.http.delete<MessageService>(`${this.url}${id}`);
+  }
 }

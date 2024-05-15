@@ -9,11 +9,18 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [ProductComponent, RouterModule, HttpClientModule],
   template: `
   <main class="container-fluid">
-    <a [routerLink]="['/']">
       <header class="brand-name">
-        <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+        <div class="row">
+          <div class="col-6">
+            <a [routerLink]="['/']">
+              <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+            </a>
+          </div>
+          <div class="col-6 text-end" style="display:inline">
+            <a [routerLink]="['/add-new']" class="btn btn-primary">Add new</a>
+          </div>
+        </div>
       </header>
-    </a>
     <div class="row">
       <router-outlet></router-outlet>
     </div>

@@ -22,8 +22,7 @@
                         <p class="card-text"><small class="text-muted"><strong>Compare
                                     Price:</strong>{{productDetail?.compare_price}}</small></p>
                         <div class="text-end">
-                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">Delete</button>
+                            <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -35,4 +34,4 @@
             (notificationEvent)="receiveNotification($event)"></app-form>
     </div>
 </div>
-<app-modal [title]="titleModal" [content]="contentModal" [bottonAccept]="bottonModal"></app-modal>
+<app-modal></app-modal>
