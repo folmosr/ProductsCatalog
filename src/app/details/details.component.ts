@@ -35,6 +35,9 @@ export class DetailsComponent {
   }
 
   ngOnInit() {
+    if (!sessionStorage.getItem('user')) {
+      this.router.navigate(['login']);
+    }
     this.productDetailId = Number(this.route.snapshot.params['id']);
     this.productDetail$ = this.productDetailService.getProductById(this.productDetailId);
     this.productDetail$.subscribe(data => this.productDetail = data)

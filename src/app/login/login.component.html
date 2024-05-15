@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-6 my-3">
+        <div class="card border-info mb-3">
+            <div class="card-header">Log In</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <form [formGroup]="applyForm" (submit)="submitApplication()">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" formControlName="userName" id="userName"
+                                placeholder="User Name" />
+                            <label for="title">User Name</label>
+                        </div>
+                        <div *ngIf="userName?.invalid && (userName?.dirty || userName?.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="userName?.errors?.['required']"><strong>userName</strong> is required.</div>
+                            <div *ngIf="userName?.errors?.['email']"><strong>userName</strong> must be a valid email.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" formControlName="password" id="password"
+                                placeholder="password" />
+                            <label for="title">Password</label>
+                        </div>
+                        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="password?.errors?.['required']"><strong>Password</strong> is required.</div>
+                            <div *ngIf="password?.errors?.['minlength']"><strong>Password</strong> must be at least 4
+                                characters long.</div>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Sign In</button>
+                        </div>
+                    </form>
+                    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert" *ngIf="message">
+                        <strong>Check User Name and / or Password</strong>.<strong>Response:</strong>{{message}}.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

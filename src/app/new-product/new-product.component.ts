@@ -22,6 +22,12 @@ export class NewProductComponent {
 
   }
 
+  ngOnInit() {
+    if (!sessionStorage.getItem('user')) {
+      this.router.navigate(['login']);
+    }
+  }
+
   receiveNotification(notification: NotificationMessage) {
     if (this.modal) {
       let content: string;

@@ -163,16 +163,16 @@ export class FormComponent {
   submitApplication() {
     const detail: ProductDetail = {
       id: this.productDetail?.id!,
-      title: this.applyForm.value.title ?? '',
-      description: this.applyForm.value.description ?? '',
-      stock: this.applyForm.value.stock ?? 0,
-      price: this.applyForm.value.price ?? 0,
-      compare_price: this.applyForm.value.compare_price ?? 0,
-      grams: this.applyForm.value.grams ?? 0,
-      SKU: this.applyForm.value.SKU ?? '',
-      barcode: this.applyForm.value.barcode ?? '',
-      image: this.applyForm.value.image ?? '',
-      handle: this.applyForm.value.handle ?? '',
+      title: this.applyForm.value.title,
+      description: this.applyForm.value.description,
+      stock: this.applyForm.value.stock,
+      price: this.applyForm.value.price,
+      compare_price: this.applyForm.value.compare_price,
+      grams: this.applyForm.value.grams,
+      SKU: this.applyForm.value.SKU,
+      barcode: this.applyForm.value.barcode,
+      image: this.applyForm.value.image,
+      handle: this.applyForm.value.handle,
     }
     this.productDetailService.submitApplication(this.productDetailId, detail)
       .pipe(catchError((ex: any, caught: Observable<any>): Observable<any> => {
