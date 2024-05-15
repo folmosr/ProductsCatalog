@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProductComponent } from './product/product.component';
+import { HttpClientModule } from '@angular/common/http';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ProductComponent, RouterModule],
+  imports: [ProductComponent, RouterModule, HttpClientModule],
   template: `
   <main class="container-fluid">
     <a [routerLink]="['/']">

@@ -31,7 +31,8 @@
         </div>
     </div>
     <div class="col-8">
-        <app-form [productDetail]="productDetail" [productDetailId]="productDetailId"></app-form>
+        <app-form [productDetail]="productDetail$ | async" [productDetailId]="productDetailId"
+            (notificationEvent)="receiveNotification($event)"></app-form>
     </div>
 </div>
 <app-modal [title]="titleModal" [content]="contentModal" [bottonAccept]="bottonModal"></app-modal>

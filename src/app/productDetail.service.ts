@@ -1,33 +1,29 @@
 import { Injectable } from '@angular/core';
 import { ProductDetail } from './productDetail';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { MessageService } from './messageService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductDetailService {
 
-  async submitApplication(id: number, detail: ProductDetail) {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(detail)
-    };
-    const data = await fetch(`${this.url}${id}`, requestOptions);
-    return await data.json() ?? [];
+  submitApplication(id: number, detail: ProductDetail): Observable<MessageService> {
+    return this.http.put<MessageService>(`${this.url}${id}`, detail);
   }
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  url = 'http://localhost:9000/api/products/';
+  url = 'http://localhost:7000/api/products/';
 
   async getAllProducts(): Promise<ProductDetail[]> {
     const data = await fetch(this.url);
     return await data.json() ?? [];
   }
 
-  async getProductById(id:number): Promise<ProductDetail> {
-    const data = await fetch(`${this.url}${id}`);
-    return await data.json() ?? [];
+  getProductById(id: number): Observable<ProductDetail> {
+    return this.http.get<ProductDetail>(`${this.url}${id}`);
   }
-  
+
 }

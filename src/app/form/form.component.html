@@ -1,7 +1,6 @@
 <div class="card border-info mb-3">
-    <div class="card-header">Product Form</div>
+    <div class="card-header">{{ productDetail ? productDetail.title : 'New Product' }}</div>
     <div class="card-body">
-        <h5 class="card-title">{{productDetail?.title}}</h5>
         <div class="card-text">
             <form [formGroup]="applyForm" (submit)="submitApplication()">
                 <div class="form-floating mb-3">
@@ -45,8 +44,8 @@
                         characters long.</div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" formControlName="handle" id="handle" placeholder="Handle" />
-                    <label for="hanlde">Handle</label>
+                    <input type="text" class="form-control" formControlName="handle" id="handle" placeholder="handle" />
+                    <label for="handle">Handle</label>
                 </div>
                 <div *ngIf="handle?.invalid && (handle?.dirty || handle?.touched)" class="alert alert-danger">
                     <div *ngIf="handle?.errors?.['required']"><strong>Handle</strong> is required.</div>

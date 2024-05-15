@@ -1,8 +1,10 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductDetail } from '../productDetail';
 import { ProductDetailService } from '../productDetail.service';
 import { CommonModule } from '@angular/common';
+import { NotificationMessage } from '../notificationMessage';
+import { Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -13,11 +15,11 @@ import { CommonModule } from '@angular/common';
 })
 export class FormComponent {
 
-  @Input() productDetail: ProductDetail | undefined;
+  @Input() productDetail: ProductDetail | null = null;
 
   @Input() productDetailId: number = -1;
 
-  notification: string = '';
+  @Output() notificationEvent = new EventEmitter<NotificationMessage>();
 
   reg: string = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
@@ -25,8 +27,7 @@ export class FormComponent {
 
   productDetailService: ProductDetailService = inject(ProductDetailService);
 
-  ngOnInit() {
-
+  ngOnChanges() {
     this.applyForm = new FormGroup({
       title: new FormControl(this.productDetail?.title ?? '', [
         Validators.required,
@@ -109,6 +110,13 @@ export class FormComponent {
     return this.applyForm.get('handle');
   }
 
+  sendNewNotification(message: string, type: string) {
+    this.notificationEvent.emit({
+      message,
+      type
+    });
+  }
+
   submitApplication() {
     const detail: ProductDetail = {
       id: this.productDetail?.id!,
@@ -124,7 +132,13 @@ export class FormComponent {
       handle: this.applyForm.value.handle ?? '',
     }
     this.productDetailService.submitApplication(this.productDetailId, detail)
-      .then(r => this.notification = r.message)
-      .catch((e: Error) => this.notification = e.message);
+      .pipe(catchError((ex: any, caught: Observable<any>): Observable<any> => {
+        this.sendNewNotification(ex.error.message, 'Error');
+        return of();
+      }))
+      .subscribe(
+        data => this.sendNewNotification(data.message, 'OK')
+      )
+
   }
 }
